@@ -10,12 +10,24 @@ if (isset($_POST['rw11']) && isset($_POST['rw12']) && isset($_POST['rw13']) && i
         $x = 0;
         $y = 0;
         $z = 0;
+        $error_x = 0;
+        $error_y = 0;
+        $error_z = 0;
         for ($i=0; $i < $iteration; $i++) { 
+            $x0 = $x;
             $x = ($eq1[3] - ($eq1[1] * $y) - ($eq1[2] * $z)) / $eq1[0];
+            $error_x = abs($x - $x0);
+
+            $y0 = $y;
             $y = ($eq2[3] - ($eq2[0] * $x) - ($eq2[2] * $z)) / $eq2[1];
+            $error_y = abs($y - $y0);
+
+            $z0 = $z;
             $z = ($eq3[3] - ($eq3[0] * $x) - ($eq3[1] * $y)) / $eq3[2];
+            $error_z = abs($z - $z0);
         }
-        return array($x, $y, $z);
+        $max_error = max($error_x, $error_y, $error_z);
+        return array($x, $y, $z, $max_error);
     }
 
     $result = gaussSeidel($equation1, $equation2, $equation3, $iteration);
@@ -23,6 +35,7 @@ if (isset($_POST['rw11']) && isset($_POST['rw12']) && isset($_POST['rw13']) && i
     $resX = $result[0];
     $resY = $result[1];
     $resZ = $result[2];
+    $error = $result[3];
 
     // $unComplete = false;
 
@@ -105,10 +118,11 @@ if (isset($_POST['rw11']) && isset($_POST['rw12']) && isset($_POST['rw13']) && i
                                 </div>
                             <?php endif; ?>
         
-                            <div class="grid grid-cols-3 mt-4">
-                                <p>x = <?php echo isset($resX) ? round($resX, 5) : 0; ?></p>
-                                <p>y = <?php echo isset($resY) ? round($resY, 5) : 0; ?></p>
-                                <p>z = <?php echo isset($resZ) ? round($resZ, 5) : 0; ?></p>
+                            <div class="grid grid-cols-3 grid-rows-2 gap-4 mt-4">
+                                <p class="w-full text-center text-sm lg:text-base">x = <?php echo isset($resX) ? round($resX, 5) : 0; ?></p>
+                                <p class="w-full text-center text-sm lg:text-base">y = <?php echo isset($resY) ? round($resY, 5) : 0; ?></p>
+                                <p class="w-full text-center text-sm lg:text-base">z = <?php echo isset($resZ) ? round($resZ, 5) : 0; ?></p>
+                                <p style="grid-column: span 3; margin-top: 8px;" class="w-full text-center text-sm lg:text-base">error = <?php echo isset($error) ? round($error, 5) : 0; ?></p>
                             </div>
                         </div>
                     </div>
