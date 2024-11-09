@@ -127,7 +127,7 @@ if (isset($_POST['rw11']) && isset($_POST['rw12']) && isset($_POST['rw13']) && i
                         </div>
                     </div>
                     <div class="border mt-5 py-2">
-                        <p class="text-center text-xs text-gray-300">Developed by Rendy & Salman.</p>
+                        <p class="text-center text-xs text-gray-300">Developed by Rendy & Salman & Frengki.</p>
                     </div>
                 </div>
             </div>
